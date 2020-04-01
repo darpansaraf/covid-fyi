@@ -28,12 +28,15 @@ public class VrdlEntity {
     private String extension;
     private String sourceLink;
     private String source;
+    private String informationType;
 
     @Column(length = 2048)
     private String details;
 
     private Date createdOn;
 
-    private String state;
-    private String district;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "location_id")
+    private LocationEntity location;
+
 }

@@ -1,5 +1,6 @@
 package com.covidfyi.controllers;
 
+import com.covidfyi.datacontracts.GetVrdlRQ;
 import com.covidfyi.datacontracts.Vrdl;
 import com.covidfyi.entities.VrdlEntity;
 import com.covidfyi.services.VrdlService;
@@ -17,9 +18,10 @@ public class CovidFyiController {
     @Autowired
     private VrdlService vrdlService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Vrdl> get() throws  Exception {
-        List<VrdlEntity> vrdlEntityList = vrdlService.getAllVrdls();
+    @RequestMapping(value = "/searchvrdls", method = RequestMethod.POST)
+    public List<Vrdl> searchVrdls(@RequestBody GetVrdlRQ getVrdlRQ) throws Exception {
+        com.covidfyi.entities.GetVrdlRQ doGetVrdlRQ = VrdlTranslator.toDomainObject(getVrdlRQ);
+        List<VrdlEntity> vrdlEntityList = vrdlService.getVrdls(doGetVrdlRQ);
         return VrdlTranslator.toDataContractObject(vrdlEntityList);
 
     }
